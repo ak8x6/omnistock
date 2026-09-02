@@ -209,25 +209,6 @@ Bye.
 
 ---
 
-## 🚧 Known Limitations & Roadmap
-
-These are real findings from reading the source, listed roughly by severity. Nothing here is hidden behind a "future work" label — each one is a concrete open item.
-
-- [ ] **`scanf("%s", p.name)` is an unbounded read.** A product name longer than 49 characters overflows the fixed `char name[50]` field. Needs a width specifier (`%49s`) or a `fgets` + trim path. Highest-priority fix in the codebase.
-- [ ] **Duplicate product IDs are silently dropped.** `insertRec()` returns the existing node untouched when `p.id` already exists, but `main` prints `Done!` either way — so the operator is told the add succeeded when nothing was stored. Should report a conflict or update the existing record in place.
-- [ ] **Stock can go negative.** `node->prod.qty += o.change` is applied with no floor check, so a sale larger than the quantity on hand produces a negative stock level instead of being rejected.
-- [ ] **Input validation is inconsistent.** Only the menu-choice `scanf` checks its return value and flushes the input buffer. The ID, price, and quantity reads do not, so a non-numeric entry leaves the field uninitialised and the offending token sitting in the buffer.
-- [ ] **No persistence.** The catalog, the pending queue, and the undo history exist only in process memory; exiting discards all of it. A file-backed or SQLite-backed store is the next significant feature.
-- [ ] **The BST is never rebalanced.** The `O(log n)` figures are average case. Products entered in ascending ID order — the natural data-entry pattern — degrade the tree into a linked list and lookup into O(n). AVL or red-black rotations would bound it.
-- [ ] **Quicksort pivots on the last element.** An inventory already ordered by price hits the O(n²) worst case. Median-of-three or a randomised pivot would fix it.
-- [ ] **Internal helpers are not `static`.** `insertRec`, `swapProd`, and `partition` have external linkage with no header declaration, so they leak into the global namespace across translation units.
-- [ ] **No point-lookup command.** `search()` is implemented and exercised internally by order processing and undo, but the menu exposes no "find product by ID" option.
-- [ ] **No delete or edit path.** Products can be added and their quantity adjusted, but never removed or renamed.
-- [ ] **No automated tests.** There is no test target or test source — behaviour has only been verified interactively.
-- [ ] **`string.h` is included but unused** in both `main.c` and `inventory_bst.c`.
-
----
-
 ## 👤 Author
 
 **Ahmad Kassem**
