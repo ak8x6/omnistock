@@ -24,7 +24,7 @@ OmniStock implements that loop as a single C99 process with no dependency beyond
 
 Each structure is an isolated compilation unit behind its own header. `main.c` owns the menu loop and wires the three together; it holds no data structure logic of its own.
 
-**Current scope:** state lives in process memory for the life of the session — there is no file or database persistence yet, and the interface is an interactive terminal menu. See [Known Limitations & Roadmap](#-known-limitations--roadmap).
+**Current scope:** an in-memory engine driven from an interactive terminal menu — one process, no daemon, no network layer.
 
 ---
 
